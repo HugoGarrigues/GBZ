@@ -3,21 +3,18 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-// initialize Prisma Client
 const prisma = new PrismaClient();
-
 const roundsOfHashing = 10;
 
 async function main() {
-  // create two dummy users
+  // Create hashed passwords
   const passwordSabin = await bcrypt.hash('password-sabin', roundsOfHashing);
   const passwordAlex = await bcrypt.hash('password-alex', roundsOfHashing);
 
+  // Create users
   const user1 = await prisma.user.upsert({
     where: { email: 'sabin@adams.com' },
-    update: {
-      password: passwordSabin,
-    },
+    update: { password: passwordSabin },
     create: {
       email: 'sabin@adams.com',
       name: 'Sabin Adams',
@@ -27,9 +24,7 @@ async function main() {
 
   const user2 = await prisma.user.upsert({
     where: { email: 'alex@ruheni.com' },
-    update: {
-      password: passwordAlex,
-    },
+    update: { password: passwordAlex },
     create: {
       email: 'alex@ruheni.com',
       name: 'Alex Ruheni',
@@ -37,50 +32,43 @@ async function main() {
     },
   });
 
-  // create three dummy articles
-  const post1 = await prisma.article.upsert({
-    where: { title: 'Prisma Adds Support for MongoDB' },
-    update: {
-      authorId: user1.id,
-    },
+  // Create exercises
+  const exercise1 = await prisma.exercise.upsert({
+    where: { name: 'Développé couché' },
+    update: { authorId: user1.id },
     create: {
-      title: 'Prisma Adds Support for MongoDB',
-      body: 'Support for MongoDB has been one of the most requested features since the initial release of...',
-      description:
-        "We are excited to share that today's Prisma ORM release adds stable support for MongoDB!",
-      published: false,
+      name: 'Développé couché',
+      description: 'Exercice de base pour le développement des pectoraux.',
+      muscles: ['pectoraux', 'triceps', 'épaules'],
+      published: true,
       authorId: user1.id,
     },
   });
 
-  const post2 = await prisma.article.upsert({
-    where: { title: "What's new in Prisma? (Q1/22)" },
-    update: {
-      authorId: user2.id,
-    },
+  const exercise2 = await prisma.exercise.upsert({
+    where: { name: 'Curl biceps' },
+    update: { authorId: user2.id },
     create: {
-      title: "What's new in Prisma? (Q1/22)",
-      body: 'Our engineers have been working hard, issuing new releases with many improvements...',
-      description:
-        'Learn about everything in the Prisma ecosystem and community from January to March 2022.',
+      name: 'Curl biceps',
+      description: 'Isolation du biceps avec haltères.',
+      muscles: ['biceps'],
       published: true,
       authorId: user2.id,
     },
   });
 
-  const post3 = await prisma.article.upsert({
-    where: { title: 'Prisma Client Just Became a Lot More Flexible' },
+  const exercise3 = await prisma.exercise.upsert({
+    where: { name: 'Squat' },
     update: {},
     create: {
-      title: 'Prisma Client Just Became a Lot More Flexible',
-      body: 'Prisma Client extensions provide a powerful new way to add functionality to Prisma in a type-safe manner...',
-      description:
-        'This article will explore various ways you can use Prisma Client extensions to add custom functionality to Prisma Client..',
-      published: true,
+      name: 'Squat',
+      description: 'Exercice polyarticulaire pour les jambes.',
+      muscles: ['quadriceps', 'ischio-jambiers', 'fessiers'],
+      published: false,
     },
   });
 
-  console.log({ user1, user2, post1, post2, post3 });
+  console.log({ user1, user2, exercise1, exercise2, exercise3 });
 }
 
 main()

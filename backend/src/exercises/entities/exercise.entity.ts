@@ -1,21 +1,21 @@
-// src/articles/entities/article.entity.ts
+// src/exercises/entities/exercise.entity.ts
 
-import { Article } from '@prisma/client';
+import { Exercise } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from 'src/users/entities/user.entity';
 
-export class ArticleEntity implements Article {
+export class ExerciseEntity implements Exercise {
   @ApiProperty()
   id: number;
 
   @ApiProperty()
-  title: string;
+  name: string;
 
   @ApiProperty({ required: false, nullable: true })
   description: string | null;
 
   @ApiProperty()
-  body: string;
+  muscles: string[];
 
   @ApiProperty()
   published: boolean;
@@ -32,7 +32,7 @@ export class ArticleEntity implements Article {
   @ApiProperty({ required: false, type: UserEntity })
   author?: UserEntity;
 
-  constructor({ author, ...data }: Partial<ArticleEntity>) {
+  constructor({ author, ...data }: Partial<ExerciseEntity>) {
     Object.assign(this, data);
 
     if (author) {
