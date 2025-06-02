@@ -1,15 +1,15 @@
 -- CreateTable
-CREATE TABLE "Article" (
+CREATE TABLE "Exercise" (
     "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "description" TEXT,
-    "body" TEXT NOT NULL,
+    "muscles" TEXT[],
     "published" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "authorId" INTEGER,
 
-    CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Exercise_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -25,10 +25,10 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Article_title_key" ON "Article"("title");
+CREATE UNIQUE INDEX "Exercise_name_key" ON "Exercise"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "Article" ADD CONSTRAINT "Article_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Exercise" ADD CONSTRAINT "Exercise_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

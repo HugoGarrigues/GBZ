@@ -1,4 +1,4 @@
-// src/articles/dto/create-article.dto.ts
+// src/exercises/dto/create-exerise.dto.ts
 
 import { ApiProperty } from '@nestjs/swagger';
 import {
@@ -10,12 +10,12 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateArticleDto {
+export class CreateExerciseDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
   @ApiProperty()
-  title: string;
+  name: string;
 
   @IsString()
   @IsOptional()
@@ -27,7 +27,7 @@ export class CreateArticleDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  body: string;
+  muscles: string[];
 
   @IsBoolean()
   @IsOptional()
