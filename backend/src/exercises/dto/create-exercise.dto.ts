@@ -1,5 +1,3 @@
-// src/exercises/dto/create-exerise.dto.ts
-
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
@@ -8,29 +6,36 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  IsArray,
+  ArrayNotEmpty,
+  IsInt,
 } from 'class-validator';
 
 export class CreateExerciseDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
-  @ApiProperty()
+  @ApiProperty({ description: 'Nom de l\'exercice' })
   name: string;
 
   @IsString()
   @IsOptional()
-  @IsNotEmpty()
   @MaxLength(300)
-  @ApiProperty({ required: false })
+  @ApiProperty({ description: 'Description de l\'exercice', required: false })
   description?: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  muscles: string[];
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsInt({ each: true })
+  @ApiProperty({
+    type: [Number],
+    description: 'Liste des IDs des muscles associés à l\'exercice',
+    example: [5, 6, 7],
+  })
+  musclesIds: number[];
 
   @IsBoolean()
   @IsOptional()
-  @ApiProperty({ required: false, default: false })
+  @ApiProperty({ required: false, default: false, description: 'Si l\'exercice est publié' })
   published?: boolean = false;
 }
