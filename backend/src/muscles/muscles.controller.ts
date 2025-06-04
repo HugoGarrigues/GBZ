@@ -16,8 +16,8 @@ export class MusclesController {
   constructor(private readonly musclesService: MusclesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @ApiBearerAuth()
   create(@Body() createMuscleDto: CreateMuscleDto) {
     return this.musclesService.create(createMuscleDto);
   }
@@ -33,8 +33,8 @@ export class MusclesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @ApiBearerAuth()
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateMuscleDto: UpdateMuscleDto,
