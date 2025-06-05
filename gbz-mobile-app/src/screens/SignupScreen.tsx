@@ -1,52 +1,31 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, useTheme } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface LoginScreenProps {
-  onLoginSuccess: () => void;
+interface SignupScreenProps {
+  onSignupSuccess?: () => void;
 }
 
-export default function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
+export default function SignupScreen({ onSignupSuccess }: SignupScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const theme = useTheme();
 
-const handleLogin = async () => {
-  setError('');
-  try {
-    console.log('Envoi login:', { email, password });
-    const response = await fetch('http://192.168.1.17:3000/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('Réponse non OK:', errText);
-      setError('Email ou mot de passe incorrect');
+  const handleSignup = () => {
+    setError('');
+    if (!email || !password || !confirmPassword) {
+      setError('Tous les champs sont requis');
       return;
     }
-
-    const data = await response.json();
-    console.log('Réponse login:', data);
-
-    const { accessToken } = data;
-    if (!accessToken) {
-      setError('Token manquant dans la réponse');
+    if (password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas');
       return;
     }
-
-    await AsyncStorage.setItem('accessToken', accessToken);
-    onLoginSuccess();
-  } catch (e) {
-    console.error('Erreur fetch login:', e);
-    setError('Erreur de connexion au serveur');
-  }
-};
-
+    // TODO: remplacer par appel API réel pour créer un utilisateur
+    if (onSignupSuccess) onSignupSuccess();
+  };
 
   return (
     <KeyboardAvoidingView
@@ -54,7 +33,7 @@ const handleLogin = async () => {
       style={styles.container}
     >
       <View style={[styles.inner, { backgroundColor: theme.colors.surface }]}>
-        <Text variant="headlineMedium" style={styles.title}>Connexion</Text>
+        <Text variant="headlineMedium" style={styles.title}>Inscription</Text>
 
         <TextInput
           label="Email"
@@ -71,11 +50,18 @@ const handleLogin = async () => {
           secureTextEntry
           style={styles.input}
         />
+        <TextInput
+          label="Confirmer le mot de passe"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+          style={styles.input}
+        />
 
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <Button mode="contained" onPress={handleLogin} style={styles.button}>
-          Se connecter
+        <Button mode="contained" onPress={handleSignup} style={styles.button}>
+          S'inscrire
         </Button>
       </View>
     </KeyboardAvoidingView>
