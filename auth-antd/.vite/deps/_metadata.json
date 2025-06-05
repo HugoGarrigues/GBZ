@@ -1,0 +1,97 @@
+{
+  "hash": "78eec972",
+  "configHash": "7189cb6b",
+  "lockfileHash": "6b7460fb",
+  "browserHash": "3aa33234",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "f997565b",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "58767148",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "55433c71",
+      "needsInterop": true
+    },
+    "@refinedev/core": {
+      "src": "../../node_modules/@refinedev/core/dist/index.mjs",
+      "file": "@refinedev_core.js",
+      "fileHash": "c5a61081",
+      "needsInterop": false
+    },
+    "@refinedev/antd": {
+      "src": "../../node_modules/@refinedev/antd/dist/index.mjs",
+      "file": "@refinedev_antd.js",
+      "fileHash": "43d3acbd",
+      "needsInterop": false
+    },
+    "@refinedev/simple-rest": {
+      "src": "../../node_modules/@refinedev/simple-rest/dist/index.mjs",
+      "file": "@refinedev_simple-rest.js",
+      "fileHash": "5b5f8847",
+      "needsInterop": false
+    },
+    "@refinedev/react-router": {
+      "src": "../../node_modules/@refinedev/react-router/dist/index.mjs",
+      "file": "@refinedev_react-router.js",
+      "fileHash": "a8e22e5e",
+      "needsInterop": false
+    },
+    "react-router": {
+      "src": "../../node_modules/react-router/dist/development/index.mjs",
+      "file": "react-router.js",
+      "fileHash": "fd7a4e20",
+      "needsInterop": false
+    },
+    "antd": {
+      "src": "../../node_modules/antd/es/index.js",
+      "file": "antd.js",
+      "fileHash": "86938841",
+      "needsInterop": false
+    },
+    "@ant-design/icons": {
+      "src": "../../node_modules/@ant-design/icons/es/index.js",
+      "file": "@ant-design_icons.js",
+      "fileHash": "f07856e3",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "d4905b05",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-6AK7SGFY": {
+      "file": "chunk-6AK7SGFY.js"
+    },
+    "chunk-3TRDIZYA": {
+      "file": "chunk-3TRDIZYA.js"
+    },
+    "chunk-2HJEM4DJ": {
+      "file": "chunk-2HJEM4DJ.js"
+    },
+    "chunk-AGL3XMSE": {
+      "file": "chunk-AGL3XMSE.js"
+    },
+    "chunk-MHCNOVJW": {
+      "file": "chunk-MHCNOVJW.js"
+    },
+    "chunk-KL4SNAOQ": {
+      "file": "chunk-KL4SNAOQ.js"
+    },
+    "chunk-PLDDJCW6": {
+      "file": "chunk-PLDDJCW6.js"
+    }
+  }
+}

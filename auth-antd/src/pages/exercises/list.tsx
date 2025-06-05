@@ -37,7 +37,6 @@ type Exercise = {
   id: number;
   name: string;
   description?: string;
-  published: boolean;
   muscles: Muscle[];
 };
 
@@ -188,33 +187,6 @@ export const ExerciseList: React.FC = () => {
     setNewExerciseDescription("");
     setSelectedMuscleIds([]);
   };
-
-  const togglePublished = async (record: Exercise) => {
-    try {
-      const res = await fetch(`http://localhost:3000/exercises/${record.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-        body: JSON.stringify({ published: !record.published }),
-      });
-      if (!res.ok) throw new Error("Erreur lors de la mise à jour du statut");
-  
-      const updated = await res.json();
-      const newList = exercises.map((ex) =>
-        ex.id === record.id ? updated : ex
-      );
-      setExercises(newList);
-      setFilteredExercises(
-        newList.filter((ex) =>
-          ex.name.toLowerCase().includes(searchText.toLowerCase())
-        )
-      );
-    } catch (error: any) {
-      message.error(error.message || "Erreur inconnue");
-    }
-  };
   
 
   const handleCancel = () => {
@@ -336,21 +308,6 @@ export const ExerciseList: React.FC = () => {
             {record.muscles.map((m) => m.name).join(", ") || "—"}
           </span>
         ),
-    },
-    {
-      title: "Publié",
-      dataIndex: "published",
-      key: "published",
-      width: 120,
-      align: "center" as const,
-      render: (_: any, record: Exercise) => (
-        <Switch
-          checked={record.published}
-          onChange={() => togglePublished(record)}
-          checkedChildren=""
-          unCheckedChildren=""
-        />
-      ),
     },
     {
       title: "Actions",

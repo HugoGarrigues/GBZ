@@ -33,9 +33,4 @@ export class CreateExerciseDto {
     example: [5],
   })
   musclesIds: number[];
-
-  @IsBoolean()
-  @IsOptional()
-  @ApiProperty({ required: false, default: false, description: 'Si l\'exercice est publié' })
-  published?: boolean = false;
 }
