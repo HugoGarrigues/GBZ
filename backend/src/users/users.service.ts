@@ -29,8 +29,16 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.prisma.user.findUnique({ where: { id } });
+    return this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        programs: true,  
+        exercises: true, 
+        sessions: true,  
+      },
+    });
   }
+  
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {

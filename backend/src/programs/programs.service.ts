@@ -11,7 +11,6 @@ export class ProgramsService {
   async create(createProgramDto: CreateProgramDto, userId: number) {
     const { name, description, sessionsIds } = createProgramDto;
 
-    // Vérifier unicité insensible à la casse
     const existing = await this.prisma.program.findFirst({
       where: {
         name: { equals: name, mode: 'insensitive' },
@@ -21,7 +20,6 @@ export class ProgramsService {
       throw new BadRequestException(`Le programme "${name}" existe déjà.`);
     }
 
-    // Vérifier que les sessions existent si sessionsIds fournis
     if (sessionsIds && sessionsIds.length > 0) {
       const sessions = await this.prisma.session.findMany({
         where: { id: { in: sessionsIds } },
