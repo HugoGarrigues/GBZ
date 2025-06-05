@@ -100,8 +100,4 @@ export const authProvider: AuthProvider = {
     }
     return { error };
   },
-
-  register: async () => ({ success: false }),
-  updatePassword: async () => ({ success: false }),
-  forgotPassword: async () => ({ success: false }),
 };

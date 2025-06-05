@@ -18,9 +18,6 @@ export class ExerciseEntity implements Exercise {
   muscles: string[];
 
   @ApiProperty()
-  published: boolean;
-
-  @ApiProperty()
   createdAt: Date;
 
   @ApiProperty()
