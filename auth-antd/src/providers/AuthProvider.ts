@@ -91,27 +91,6 @@ export const authProvider: AuthProvider = {
     };
   },
 
-  getIdentity: async () => {
-    const user = localStorage.getItem("user");
-    if (!user) return null;
-
-    const parsed = JSON.parse(user);
-
-    return {
-      id: parsed.userId,
-      name: parsed.name || "Admin",
-      avatar: "https://i.pravatar.cc/300",
-    };
-  },
-
-  getPermissions: async () => {
-    const user = localStorage.getItem("user");
-    if (!user) return null;
-
-    const parsed = JSON.parse(user);
-    return parsed.isAdmin ? ["admin"] : [];
-  },
-
   onError: async (error) => {
     if (error.status === 401) {
       return {
@@ -122,42 +101,7 @@ export const authProvider: AuthProvider = {
     return { error };
   },
 
-  register: async ({ name, email, password }) => {
-    try {
-      const response = await fetch(`${API_URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        return {
-          success: false,
-          error: {
-            message: errorData.message || "Registration failed",
-            name: "RegisterError",
-          },
-        };
-      }
-
-      return {
-        success: true,
-        redirectTo: "/login",
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        error: {
-          message: error.message || "Network error",
-          name: "RegisterError",
-        },
-      };
-    }
-  },
-
+  register: async () => ({ success: false }),
   updatePassword: async () => ({ success: false }),
   forgotPassword: async () => ({ success: false }),
 };

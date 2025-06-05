@@ -26,7 +26,13 @@ import { theme } from "antd";
 
 import "@refinedev/antd/dist/reset.css";
 
-import { PostList, PostEdit, PostShow } from "../src/pages/posts";
+import { MuscleList } from "./pages/muscles/list";
+import { ExerciseList } from "./pages/exercises/list";
+import { ProgramList } from "./pages/programs/list";
+import { SessionList } from "./pages/sessions/list";
+import { UserList } from "./pages/users/list";
+import { UserShow } from "./pages/users/show";
+
 import { DashboardPage } from "../src/pages/dashboard";
 
 import { authProvider } from "./providers/AuthProvider";
@@ -49,14 +55,39 @@ const App: React.FC = () => {
                 list: "/",
                 meta: {
                   label: "Dashboard",
-                  icon: <DashboardOutlined />,
                 },
               },
               {
-                name: "posts",
-                list: "/posts",
-                show: "/posts/show/:id",
-                edit: "/posts/edit/:id",
+                name: "Muscles",
+                list: MuscleList,
+              },
+              {
+                name: "exercises",
+                meta: {
+                  label: "Exercices",
+                },
+                list: ExerciseList,
+              },
+              {
+                name: "programs",
+                meta: {
+                  label: "Programmes",
+                },
+                list: ProgramList,
+              },
+              {
+                name: "sessions",
+                meta: {
+                  label: "Séances",
+                },
+                list: SessionList,
+              },
+              {
+                name: "users",
+                meta: {
+                  label: "Utilisateurs",
+                },
+                list: UserList,
               },
             ]}
             notificationProvider={useNotificationProvider}
@@ -80,18 +111,19 @@ const App: React.FC = () => {
                 }
               >
                 <Route index element={<DashboardPage />} />
-                <Route path="/posts">
-                  <Route index element={<PostList />} />
-                  <Route path="edit/:id" element={<PostEdit />} />
-                  <Route path="show/:id" element={<PostShow />} />
-                </Route>
+                <Route path="/muscles" element={<MuscleList />} />
+                <Route path="/exercises" element={<ExerciseList />} />
+                <Route path="/programs" element={<ProgramList />} />
+                <Route path="/sessions" element={<SessionList />} />
+                <Route path="/users" element={<UserList />} />
+                <Route path="/users/:id/show" element={<UserShow />} />
               </Route>
 
               {/* Public Auth Pages */}
               <Route
                 element={
                   <Authenticated key="auth-pages" fallback={<Outlet />}>
-                    <NavigateToResource resource="posts" />
+                    <NavigateToResource resource="dashboard" />
                   </Authenticated>
                 }
               >

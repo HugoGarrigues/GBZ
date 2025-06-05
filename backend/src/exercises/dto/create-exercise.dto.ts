@@ -30,7 +30,7 @@ export class CreateExerciseDto {
   @ApiProperty({
     type: [Number],
     description: 'Liste des IDs des muscles associés à l\'exercice',
-    example: [5, 6, 7],
+    example: [5],
   })
   musclesIds: number[];
 
