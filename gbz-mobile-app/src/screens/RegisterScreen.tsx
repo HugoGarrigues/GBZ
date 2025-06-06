@@ -2,29 +2,45 @@ import React, { useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, useTheme } from 'react-native-paper';
 
-interface SignupScreenProps {
-  onSignupSuccess?: () => void;
+interface RegisterScreenProps {
+  onRegisterSuccess: () => void;
+  onSwitchToLogin: () => void;
 }
 
-export default function SignupScreen({ onSignupSuccess }: SignupScreenProps) {
+export default function RegisterScreen({ onRegisterSuccess, onSwitchToLogin }: RegisterScreenProps) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const theme = useTheme();
 
-  const handleSignup = () => {
+  const handleRegister = async () => {
     setError('');
-    if (!email || !password || !confirmPassword) {
-      setError('Tous les champs sont requis');
+    if (!name || !email || !password) {
+      setError('Merci de remplir tous les champs');
       return;
     }
-    if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
-      return;
+
+    try {
+      const response = await fetch('http://192.168.1.17:3000/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error('Erreur inscription:', errText);
+        setError('Impossible de s\'inscrire avec ces informations');
+        return;
+      }
+
+      // Inscription OK, on peut prévenir ou rediriger vers login
+      onRegisterSuccess();
+    } catch (e) {
+      console.error('Erreur fetch inscription:', e);
+      setError('Erreur de connexion au serveur');
     }
-    // TODO: remplacer par appel API réel pour créer un utilisateur
-    if (onSignupSuccess) onSignupSuccess();
   };
 
   return (
@@ -35,6 +51,13 @@ export default function SignupScreen({ onSignupSuccess }: SignupScreenProps) {
       <View style={[styles.inner, { backgroundColor: theme.colors.surface }]}>
         <Text variant="headlineMedium" style={styles.title}>Inscription</Text>
 
+        <TextInput
+          label="Nom complet"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+          autoCapitalize="words"
+        />
         <TextInput
           label="Email"
           value={email}
@@ -50,18 +73,15 @@ export default function SignupScreen({ onSignupSuccess }: SignupScreenProps) {
           secureTextEntry
           style={styles.input}
         />
-        <TextInput
-          label="Confirmer le mot de passe"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-          style={styles.input}
-        />
 
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <Button mode="contained" onPress={handleSignup} style={styles.button}>
+        <Button mode="contained" onPress={handleRegister} style={styles.button}>
           S'inscrire
+        </Button>
+
+        <Button onPress={onSwitchToLogin} style={{ marginTop: 10 }}>
+          Déjà un compte ? Se connecter
         </Button>
       </View>
     </KeyboardAvoidingView>

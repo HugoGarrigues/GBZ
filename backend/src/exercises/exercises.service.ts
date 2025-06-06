@@ -121,6 +121,18 @@ export class ExercisesService {
 
   async remove(id: number) {
     await this.findOne(id);
-    return this.prisma.exercise.delete({ where: { id } });
+  
+    // Supprimer d'abord toutes les relations dans UserExerciseSession
+    await this.prisma.userExerciseSession.deleteMany({
+      where: {
+        exerciseId: id,
+      },
+    });
+  
+    // Ensuite, supprimer l'exercice
+    return this.prisma.exercise.delete({
+      where: { id },
+    });
   }
+  
 }
