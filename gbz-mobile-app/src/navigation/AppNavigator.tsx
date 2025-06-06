@@ -8,10 +8,11 @@ import ProgramsScreen from '../screens/ProgramsScreen';
 import SessionsScreen from '../screens/SessionsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ExercicesScreen from '../screens/ExercisesScreen';
-import LoginScreen from '../screens/LoginScreen';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from '../theme';
+
+import AuthNavigator from '../screens/AuthNavigator';
 
 type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
@@ -20,7 +21,6 @@ const Tab = createBottomTabNavigator();
 export default function AppNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
-  // Vérifie le token au démarrage
   useEffect(() => {
     const checkLoginStatus = async () => {
       const token = await AsyncStorage.getItem('accessToken');
@@ -40,14 +40,13 @@ export default function AppNavigator() {
   };
 
   if (isLoggedIn === null) {
-    // Optionnel: écran de chargement pendant la vérification
-    return null;
+    return null; // ou écran de chargement
   }
 
   if (!isLoggedIn) {
     return (
       <NavigationContainer theme={NavigationDarkTheme}>
-        <LoginScreen onLoginSuccess={handleLoginSuccess} />
+        <AuthNavigator onLoginSuccess={handleLoginSuccess} />
       </NavigationContainer>
     );
   }
