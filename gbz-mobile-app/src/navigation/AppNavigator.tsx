@@ -58,19 +58,19 @@ export default function AppNavigator() {
           let iconName: IconName;
 
           switch (route.name) {
-            case 'Programs':
+            case 'Programmes':
               iconName = 'clipboard-list-outline';
               break;
-            case 'Home':
+            case 'Accueil':
               iconName = 'home-outline';
               break;
-            case 'Sessions':
+            case 'Séances':
               iconName = 'dumbbell';
               break;
-            case 'Profile':
+            case 'Profil':
               iconName = 'account-circle-outline';
               break;
-            case 'Exercice':
+            case 'Exercices':
               iconName = 'weight-lifter';
               break;
             default:
@@ -92,11 +92,11 @@ export default function AppNavigator() {
           };
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Programs" component={ProgramsScreen} />
-        <Tab.Screen name="Sessions" component={SessionsScreen} />
-        <Tab.Screen name="Exercice" component={ExercicesScreen} />
-        <Tab.Screen name="Profile">
+        <Tab.Screen name="Accueil" component={HomeScreen} />
+        <Tab.Screen name="Programmes" component={ProgramsScreen} />
+        <Tab.Screen name="Séances" component={SessionsScreen} />
+        <Tab.Screen name="Exercices" component={ExercicesScreen} />
+        <Tab.Screen name="Profil">
           {() => <ProfileScreen onLogout={handleLogout} />}
         </Tab.Screen>
       </Tab.Navigator>
