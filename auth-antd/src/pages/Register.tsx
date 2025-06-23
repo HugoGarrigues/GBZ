@@ -62,7 +62,7 @@ const Register: React.FC = () => {
             gap: '12px'
           }}>
             <ThunderboltOutlined style={{ color: '#6366f1' }} />
-            FitnessApp
+            GBZ
           </div>
           <p style={{ 
             color: '#9ca3af', 

@@ -301,7 +301,7 @@ const App: React.FC = () => {
                           overflow: 'hidden'
                         }}>
                           <ThunderboltOutlined style={{ color: '#6366f1', fontSize: collapsed ? '16px' : '20px' }} />
-                          {!collapsed && 'FitnessApp'}
+                          {!collapsed && 'GBZ'}
                         </div>
                       )}
                     >
@@ -369,7 +369,7 @@ const App: React.FC = () => {
                             gap: '12px'
                           }}>
                             <ThunderboltOutlined style={{ color: '#6366f1' }} />
-                            FitnessApp Pro
+                            GBZ
                           </div>
                           <p style={{ color: '#9ca3af', fontSize: '16px' }}>
                             Connectez-vous à votre espace
