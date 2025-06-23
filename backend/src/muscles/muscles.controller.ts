@@ -1,6 +1,6 @@
 // src/muscles/muscles.controller.ts
 import {
-  Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe,
+  Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Request,
   UseGuards
 } from '@nestjs/common';
 import { MusclesService } from './muscles.service';
@@ -18,10 +18,12 @@ export class MusclesController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  create(@Body() createMuscleDto: CreateMuscleDto) {
-    return this.musclesService.create(createMuscleDto);
+  @Post()
+  create(@Body() createMuscleDto: CreateMuscleDto, @Request() req) {
+    const adminUserId = req.user.id;  // supposant que ton middleware/auth ajoute l’utilisateur dans req.user
+    return this.musclesService.create(createMuscleDto, adminUserId);
   }
-
+  
   @Get()
   findAll() {
     return this.musclesService.findAll();

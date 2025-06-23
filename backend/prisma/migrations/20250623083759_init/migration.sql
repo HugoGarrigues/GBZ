@@ -15,6 +15,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Muscle" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdById" INTEGER NOT NULL,
 
     CONSTRAINT "Muscle_pkey" PRIMARY KEY ("id")
 );
@@ -55,6 +57,27 @@ CREATE TABLE "Program" (
 );
 
 -- CreateTable
+CREATE TABLE "UserExerciseSession" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "sessionId" INTEGER NOT NULL,
+    "exerciseId" INTEGER NOT NULL,
+    "sets" INTEGER NOT NULL,
+    "reps" INTEGER NOT NULL,
+
+    CONSTRAINT "UserExerciseSession_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "FollowedProgram" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "programId" INTEGER NOT NULL,
+
+    CONSTRAINT "FollowedProgram_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_ExerciseMuscles" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
@@ -88,10 +111,13 @@ CREATE UNIQUE INDEX "Muscle_name_key" ON "Muscle"("name");
 CREATE UNIQUE INDEX "Exercise_name_key" ON "Exercise"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Session_name_key" ON "Session"("name");
+CREATE UNIQUE INDEX "Program_name_key" ON "Program"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Program_name_key" ON "Program"("name");
+CREATE UNIQUE INDEX "UserExerciseSession_userId_sessionId_exerciseId_key" ON "UserExerciseSession"("userId", "sessionId", "exerciseId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "FollowedProgram_userId_key" ON "FollowedProgram"("userId");
 
 -- CreateIndex
 CREATE INDEX "_ExerciseMuscles_B_index" ON "_ExerciseMuscles"("B");
@@ -103,6 +129,9 @@ CREATE INDEX "_SessionExercises_B_index" ON "_SessionExercises"("B");
 CREATE INDEX "_ProgramSessions_B_index" ON "_ProgramSessions"("B");
 
 -- AddForeignKey
+ALTER TABLE "Muscle" ADD CONSTRAINT "Muscle_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Exercise" ADD CONSTRAINT "Exercise_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -110,6 +139,21 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_authorId_fkey" FOREIGN KEY ("autho
 
 -- AddForeignKey
 ALTER TABLE "Program" ADD CONSTRAINT "Program_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserExerciseSession" ADD CONSTRAINT "UserExerciseSession_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserExerciseSession" ADD CONSTRAINT "UserExerciseSession_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "Session"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserExerciseSession" ADD CONSTRAINT "UserExerciseSession_exerciseId_fkey" FOREIGN KEY ("exerciseId") REFERENCES "Exercise"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FollowedProgram" ADD CONSTRAINT "FollowedProgram_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FollowedProgram" ADD CONSTRAINT "FollowedProgram_programId_fkey" FOREIGN KEY ("programId") REFERENCES "Program"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ExerciseMuscles" ADD CONSTRAINT "_ExerciseMuscles_A_fkey" FOREIGN KEY ("A") REFERENCES "Exercise"("id") ON DELETE CASCADE ON UPDATE CASCADE;

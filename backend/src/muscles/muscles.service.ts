@@ -12,16 +12,15 @@ export class MusclesService {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
-  async create(createMuscleDto: CreateMuscleDto) {
-    const name = this.capitalize(createMuscleDto.name);
-
-    const existing = await this.prisma.muscle.findUnique({ where: { name } });
-
-    if (existing) {
-      throw new BadRequestException(`Le muscle "${name}" existe déjà.`);
-    }
-
-    return this.prisma.muscle.create({ data: { ...createMuscleDto, name } });
+  async create(createMuscleDto: CreateMuscleDto, adminUserId: number) {
+    return this.prisma.muscle.create({
+      data: {
+        name: createMuscleDto.name,
+        createdBy: {
+          connect: { id: adminUserId }, 
+        },
+      },
+    });
   }
 
   findAll() {
