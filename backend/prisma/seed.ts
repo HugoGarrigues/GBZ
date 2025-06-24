@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 async function main() {
-  // 🔄 Nettoyage
   await prisma.userExerciseSession.deleteMany();
   await prisma.followedProgram.deleteMany();
   await prisma.session.deleteMany();
@@ -14,7 +13,6 @@ async function main() {
   await prisma.muscle.deleteMany();
   await prisma.user.deleteMany();
 
-  // 👤 Création users
   const [admin, user] = await Promise.all([
     prisma.user.create({
       data: {
@@ -33,7 +31,6 @@ async function main() {
     }),
   ]);
 
-  // 💪 Muscles créés uniquement par l’admin
   const [pectoraux, triceps, jambes, dos, epaules] = await Promise.all([
     prisma.muscle.create({ data: { name: 'Pectoraux', createdById: admin.id } }),
     prisma.muscle.create({ data: { name: 'Triceps', createdById: admin.id } }),
@@ -42,7 +39,6 @@ async function main() {
     prisma.muscle.create({ data: { name: 'Épaules', createdById: admin.id } }),
   ]);
 
-  // 🏋️ Exercices
   const [benchPress, curl, squat] = await Promise.all([
     prisma.exercise.create({
       data: {
@@ -70,7 +66,6 @@ async function main() {
     }),
   ]);
 
-  // 🧪 Sessions
   const [session1, session2] = await Promise.all([
     prisma.session.create({
       data: {
@@ -88,7 +83,6 @@ async function main() {
     }),
   ]);
 
-  // 📦 Programmes
   const [programAdmin, programUser] = await Promise.all([
     prisma.program.create({
       data: {
@@ -108,7 +102,6 @@ async function main() {
     }),
   ]);
 
-  // ✅ Suivi d’un seul programme par user
   await prisma.followedProgram.create({
     data: {
       userId: user.id,
@@ -116,7 +109,6 @@ async function main() {
     },
   });
 
-  // 🏁 Sets/Reps personnalisés
   await prisma.userExerciseSession.createMany({
     data: [
       { userId: user.id, sessionId: session1.id, exerciseId: benchPress.id, sets: 4, reps: 10 },

@@ -32,10 +32,22 @@ export class UsersService {
     return this.prisma.user.findUnique({
       where: { id },
       include: {
-        programs: true,  
-        exercises: true, 
-        sessions: true,  
-      },
+        programs: true,
+        exercises: true,
+        sessions: true,
+        followedProgram: {
+          include: {
+            program: true,
+          },
+        },
+        userExerciseSessions: {
+          include: {
+            exercise: true,
+            session: true,
+          },
+        },
+        createdMuscles: true,
+      }
     });
   }
   
