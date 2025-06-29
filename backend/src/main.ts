@@ -27,6 +27,13 @@ async function bootstrap() {
     credentials: true,
   });
 
+    app.use('/', (req, res, next) => {
+    if (req.originalUrl === '/') {
+      return res.redirect('/api');
+    }
+    next();
+  });
+
   await app.listen(3000);
 }
 bootstrap();
