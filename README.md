@@ -29,9 +29,20 @@ git clone https://github.com/HugoGarrigues/GBZ
 cd GBZ/
 ````
 
-### 2. Créer et remplir le fichier `.env` pour l’app mobile
+### 2. Démarrage des scripts 
 
-Un script vous assiste :
+Deux scripts sont à votre disposition pour configurer l’environnement :
+
+🗂️ 1. Création du fichier .env pour la base de données
+Lancez le script suivant :
+
+```bash
+./create-env.sh
+```
+Il générera automatiquement le fichier .env nécessaire au bon fonctionnement de la base de données.
+
+📱 2. Configuration de l’environnement mobile
+Exécutez le script suivant :
 
 ```bash
 ./start-mobile.sh
@@ -48,6 +59,13 @@ ifconfig # (Mac/Linux)
 
 ```env
 192.168.1.17
+```
+
+PS : Si le script ne fonctionne pas, faites ces manipulations manuellement :
+```bash
+cd gbz-mobile-app
+npm install
+npm start
 ```
 
 ### 3. Lancer l'application avec Docker
