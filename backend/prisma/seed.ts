@@ -5,12 +5,6 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 async function main() {
-  await prisma.program.deleteMany();
-  await prisma.session.deleteMany();
-  await prisma.exercise.deleteMany();
-  await prisma.muscle.deleteMany();
-  await prisma.user.deleteMany();
-
   const adminPassword = await bcrypt.hash('adminpass', saltRounds);
   const userPassword = await bcrypt.hash('userpass', saltRounds);
 
