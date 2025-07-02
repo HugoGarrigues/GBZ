@@ -35,22 +35,9 @@ export class UsersService {
         programs: true,
         exercises: true,
         sessions: true,
-        followedProgram: {
-          include: {
-            program: true,
-          },
-        },
-        userExerciseSessions: {
-          include: {
-            exercise: true,
-            session: true,
-          },
-        },
-        createdMuscles: true,
-      }
+      },
     });
   }
-  
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {

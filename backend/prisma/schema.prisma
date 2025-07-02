@@ -17,23 +17,17 @@ model User {
   updatedAt DateTime  @updatedAt
 
   exercises Exercise[]
-  sessions  Session[]
-  programs  Program[]
+  sessions Session[]
+  programs Program[]
 
-  userExerciseSessions UserExerciseSession[]
-  followedProgram      FollowedProgram?
-  createdMuscles       Muscle[] @relation("MuscleCreator")
+  userExerciseSessions UserExerciseSession[]  // <-- Ajout ici
 }
 
+
 model Muscle {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  createdAt DateTime @default(now())
-
-  createdBy   User   @relation("MuscleCreator", fields: [createdById], references: [id])
-  createdById Int
-
-  exercises   Exercise[] @relation("ExerciseMuscles")
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  exercises Exercise[] @relation("ExerciseMuscles")
 }
 
 model Exercise {
@@ -49,12 +43,13 @@ model Exercise {
   muscles     Muscle[]  @relation("ExerciseMuscles")
   sessions    Session[] @relation("SessionExercises")
 
-  userExerciseSessions UserExerciseSession[]
+  userExerciseSessions UserExerciseSession[]  // <-- Ajout ici
 }
+
 
 model Session {
   id          Int        @id @default(autoincrement())
-  name        String
+  name        String     @unique
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
@@ -64,8 +59,9 @@ model Session {
   exercises   Exercise[] @relation("SessionExercises")
   programs    Program[]  @relation("ProgramSessions")
 
-  userExerciseSessions UserExerciseSession[]
+  userExerciseSessions UserExerciseSession[]  // <-- Ajout ici
 }
+
 
 model Program {
   id          Int        @id @default(autoincrement())
@@ -78,7 +74,6 @@ model Program {
   authorId    Int?
 
   sessions    Session[]  @relation("ProgramSessions")
-  followedBy  FollowedProgram[]
 }
 
 model UserExerciseSession {
@@ -97,12 +92,4 @@ model UserExerciseSession {
   reps       Int
 
   @@unique([userId, sessionId, exerciseId])
-}
-
-model FollowedProgram {
-  id         Int     @id @default(autoincrement())
-  user       User    @relation(fields: [userId], references: [id])
-  userId     Int     @unique
-  program    Program @relation(fields: [programId], references: [id])
-  programId  Int
 }
